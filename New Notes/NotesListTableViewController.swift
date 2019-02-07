@@ -9,7 +9,7 @@
 import UIKit
 
 class NotesListTableViewController: UITableViewController {
-    
+    var storage = Storage()
     
     enum Segue {
         static let noteSelected =  "CellSelected"
@@ -31,19 +31,28 @@ class NotesListTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return Storage.notes.count
+        return storage.notes.count
     }
 
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView,
+                            cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
-        let notes = Storage.notes[indexPath.row]
-        cell.textLabel?.text = notes.title
+        let note = storage.notes[indexPath.row]
+        let font = UIFont.preferredFont(forTextStyle: .headline)
+        let textColor = UIColor(red: 0.175, green: 0.458, blue: 0.831, alpha: 1)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: textColor,
+            .font: font,
+            .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
+        let attributedString = NSAttributedString(string: note.title, attributes: attributes)
+        cell.textLabel?.attributedText = attributedString
         // Configure the cell...
 
         return cell
     }
+    
+
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         guard let editorVC = segue.destination as? NotesEditorViewController else {
@@ -52,11 +61,11 @@ class NotesListTableViewController: UITableViewController {
         
         if Segue.noteSelected == segue.identifier {
             if let path = tableView.indexPathForSelectedRow {
-                editorVC.notes = Storage.notes[path.row]
+                editorVC.notes = storage.notes[path.row]
             }
         } else if Segue.newNote == segue.identifier {
             editorVC.notes = Note(text: " ")
-            Storage.notes.append(editorVC.notes)
+            storage.notes.append(editorVC.notes)
         }
     }
 }
