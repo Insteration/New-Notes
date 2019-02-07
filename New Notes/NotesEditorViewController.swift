@@ -70,7 +70,6 @@ class NotesEditorViewController: UIViewController {
                                                selector: #selector(keyboardDidHide),
                                                name: UIResponder.keyboardDidHideNotification,
                                                object: nil)
-        // Do any additional setup after loading the view.
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
