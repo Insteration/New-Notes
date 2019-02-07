@@ -28,7 +28,7 @@
             </objects>
             <point key="canvasLocation" x="81" y="-26"/>
         </scene>
-        <!--Notes List Table View Controller-->
+        <!--Notes-->
         <scene sceneID="DcC-ad-v8N">
             <objects>
                 <tableViewController id="8u9-Rh-9Bs" customClass="NotesListTableViewController" customModule="New_Notes" customModuleProvider="target" sceneMemberID="viewController">
@@ -54,7 +54,7 @@
                             <outlet property="delegate" destination="8u9-Rh-9Bs" id="Nsv-Ds-IJP"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Uhs-pN-fqH">
+                    <navigationItem key="navigationItem" title="Notes" id="Uhs-pN-fqH">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="AL0-Ap-GZf">
                             <connections>
                                 <segue destination="cKv-P8-Ffj" kind="show" identifier="AddNewNote" id="OxF-gJ-fR6"/>

@@ -26,11 +26,7 @@ class NotesListTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 44.0
     }
 
-    // MARK: - Table view data source
-
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return storage.notes.count
     }
 
@@ -47,12 +43,8 @@ class NotesListTableViewController: UITableViewController {
             .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
         let attributedString = NSAttributedString(string: note.title, attributes: attributes)
         cell.textLabel?.attributedText = attributedString
-        // Configure the cell...
-
         return cell
     }
-    
-
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         guard let editorVC = segue.destination as? NotesEditorViewController else {
