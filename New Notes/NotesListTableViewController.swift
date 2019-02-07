@@ -39,6 +39,9 @@ class NotesListTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isFiltering() {
+            return filteredStorage.count
+        }
         return storage.notes.count
     }
 
@@ -46,14 +49,21 @@ class NotesListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView,
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let note = storage.notes[indexPath.row]
+        
+        let search: Note
+        if isFiltering() {
+            search = filteredStorage[indexPath.row]
+        } else {
+            search = storage.notes[indexPath.row]
+        }
+        
         let font = UIFont.preferredFont(forTextStyle: .headline)
         let textColor = UIColor(red: 0.175, green: 0.458, blue: 0.831, alpha: 1)
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: textColor,
             .font: font,
             .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
-        let attributedString = NSAttributedString(string: note.title, attributes: attributes)
+        let attributedString = NSAttributedString(string: search.title, attributes: attributes)
         cell.textLabel?.attributedText = attributedString
         return cell
     }
@@ -62,10 +72,17 @@ class NotesListTableViewController: UITableViewController {
         guard let editorVC = segue.destination as? NotesEditorViewController else {
             return
         }
+
         
         if Segue.noteSelected == segue.identifier {
             if let path = tableView.indexPathForSelectedRow {
-                editorVC.notes = storage.notes[path.row]
+
+                if isFiltering() {
+                    editorVC.notes = filteredStorage[path.row]
+                } else {
+                    editorVC.notes = storage.notes[path.row]
+                }
+                
             }
         } else if Segue.newNote == segue.identifier {
             editorVC.notes = Note(text: " ")
