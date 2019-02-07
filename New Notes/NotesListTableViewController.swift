@@ -24,17 +24,21 @@ class NotesListTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    fileprivate func createSearchBar() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search your notes"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0
+
         
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Candies"
-        navigationItem.searchController = searchController
-        definesPresentationContext = true
+        createSearchBar()
         
     }
 
@@ -65,6 +69,8 @@ class NotesListTableViewController: UITableViewController {
             .textEffect: NSAttributedString.TextEffectStyle.letterpressStyle]
         let attributedString = NSAttributedString(string: search.title, attributes: attributes)
         cell.textLabel?.attributedText = attributedString
+        cell.selectionStyle = .blue
+        cell.accessoryType = .disclosureIndicator
         return cell
     }
 
@@ -91,16 +97,16 @@ class NotesListTableViewController: UITableViewController {
     }
     
     //MARK: Search
-    func isFiltering() -> Bool {
+    private func isFiltering() -> Bool {
         return searchController.isActive && !searchBarIsEmpty()
     }
     
-    func searchBarIsEmpty() -> Bool {
+    private func searchBarIsEmpty() -> Bool {
         // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
-    func filterContentForSearchText(_ searchText: String) {
+    private func filterContentForSearchText(_ searchText: String) {
         filteredStorage = storage.notes.filter({( title : Note) -> Bool in
             return title.title.lowercased().contains(searchText.lowercased())
         })

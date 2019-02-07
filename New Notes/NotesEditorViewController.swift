@@ -14,7 +14,7 @@ class NotesEditorViewController: UIViewController {
     var textView: UITextView!
     var textStorage: SyntaxHighlightTextStorage!
     
-    func createTextView() {
+    private func createTextView() {
         // 1
         let attrs = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         let attrString = NSAttributedString(string: notes.contents, attributes: attrs)
